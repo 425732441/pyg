@@ -1,0 +1,27 @@
+# dubbo-consumer
+dubbo:
+  application:
+    name: pyg-sellergoods-service
+    # 禁用QOS同一台机器可能会有端口冲突现象
+    qos-enable: false
+    qos-accept-foreign-ip: false
+  registry:
+    address: nacos://localhost:8848
+  protocol:
+    name: dubbo
+    port: -1
+  consumer:
+    timeout: 3000
+spring:
+  application:
+    name: pyg-manager-web
+  profiles:
+    active: db
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: http://localhost:8848
+#      config:
+#        server-addr: http://localhost:8848
+server:
+  port: 9001

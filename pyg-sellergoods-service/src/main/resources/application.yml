@@ -1,0 +1,19 @@
+# dubbo-provider
+dubbo:
+  application:
+    name: pyg-sellergoods-service
+  registry:
+    address: nacos://localhost:8848
+  protocol:
+    name: dubbo
+    port: 20880
+spring:
+  profiles:
+    active: db
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: http://localhost:8848
+#      config:
+#        server-addr: http://localhost:8848
+
