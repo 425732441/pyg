@@ -121,4 +121,14 @@ public class TbBrandController {
         return new Result<>(true, StatusCode.ERROR, "分页查询数据失败");
     }
 
+    @PostMapping(value = "/search")
+    public Result search(Integer page,Integer rows, @RequestBody TbBrand brand){
+        IPage<TbBrand> pageo = tbBrandServiceImpl.selectPage(page, rows);
+        if (Objects.nonNull(page)) {
+            return new Result<>(true, StatusCode.OK, "分页条件查询成功", new PageResult<>(pageo.getTotal(), pageo.getRecords()));
+        }
+        return new Result<>(true, StatusCode.ERROR, "分页查询数据失败");
+
+    }
+
 }

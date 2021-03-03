@@ -1,9 +1,8 @@
 package com.zhl.pyg.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zhl.pyg.entity.TbBrand;
 import org.apache.ibatis.annotations.Mapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
