@@ -12,6 +12,8 @@ dubbo:
     port: -1
   consumer:
     timeout: 3000
+  cloud:
+    subscribed-services: pyg-sellergoods-service
 spring:
   application:
     name: pyg-manager-web

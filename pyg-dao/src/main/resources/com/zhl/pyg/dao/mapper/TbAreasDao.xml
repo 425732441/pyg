@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhl.pyg.dao.TbAreasDao">
+    <!-- 结果集 -->
+    <resultMap type="com.zhl.pyg.entity.TbAreas" id="TbAreasMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="areaid" column="areaid" jdbcType="VARCHAR"/>
+        <result property="area" column="area" jdbcType="VARCHAR"/>
+        <result property="cityid" column="cityid" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 基本字段 -->
+    <sql id="Base_Column_List">
+        id, areaid, area, cityid    </sql>
+
+    <!-- 查询单个 -->
+    <select id="selectById" resultMap="TbAreasMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_areas
+        where id = #{id}
+    </select>
+
+    <!-- 查询全部 -->
+    <select id="selectAll" resultMap="TbAreasMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_areas
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="selectList" resultMap="TbAreasMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_areas
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="areaid != null and areaid != ''">
+                and areaid = #{areaid}
+            </if>
+            <if test="area != null and area != ''">
+                and area = #{area}
+            </if>
+            <if test="cityid != null and cityid != ''">
+                and cityid = #{cityid}
+            </if>
+        </where>
+    </select>
+
+    <!-- 新增所有列 -->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into tb_areas(id, areaid, area, cityid)
+        values ( #{id}, #{areaid}, #{area}, #{cityid})
+    </insert>
+
+    <!-- 批量新增 -->
+    <insert id="batchInsert">
+        insert into tb_areas(id, areaid, area, cityid)
+        values
+        <foreach collection="tbAreass" item="item" index="index" separator=",">
+            (
+            #{item.id}, #{item.areaid}, #{item.area}, #{item.cityid} )
+        </foreach>
+    </insert>
+
+    <!-- 通过主键修改数据 -->
+    <update id="update">
+        update pinyougoudb.tb_areas
+        <set>
+            <if test="areaid != null and areaid != ''">
+                areaid = #{areaid},
+            </if>
+            <if test="area != null and area != ''">
+                area = #{area},
+            </if>
+            <if test="cityid != null and cityid != ''">
+                cityid = #{cityid},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from tb_areas where id = #{id}
+    </delete>
+
+    <!-- 总数 -->
+    <select id="count" resultType="int">
+        select count(*) from tb_areas
+    </select>
+</mapper>

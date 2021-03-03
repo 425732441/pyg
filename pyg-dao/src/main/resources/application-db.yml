@@ -48,5 +48,10 @@ spring:
         login-username: root
         login-password: 123
 
-mybatis:
-  mapper-locations: classpath*:com/zhl/**/*Mapper.xml
+mybatis-plus:
+  mapper-locations: classpath*:com/zhl/**/*Dao.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  level:
+    com.zhl.pyg.dao.mapper: info

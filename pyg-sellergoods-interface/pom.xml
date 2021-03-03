@@ -7,6 +7,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <name>pyg-sellergoods-interface</name>
     <description>商家商品服务接口</description>
+    <packaging>jar</packaging>
     <parent>
         <artifactId>pyg</artifactId>
         <groupId>com.zhl</groupId>
@@ -18,6 +19,11 @@
         <dependency>
             <groupId>com.zhl</groupId>
             <artifactId>pyg-pojo</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zhl</groupId>
+            <artifactId>pyg-dao</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

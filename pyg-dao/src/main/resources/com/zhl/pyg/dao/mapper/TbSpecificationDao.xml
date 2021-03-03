@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhl.pyg.dao.TbSpecificationDao">
+    <!-- 结果集 -->
+    <resultMap type="com.zhl.pyg.entity.TbSpecification" id="TbSpecificationMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="specName" column="spec_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 基本字段 -->
+    <sql id="Base_Column_List">
+        id, spec_name    </sql>
+
+    <!-- 查询单个 -->
+    <select id="selectById" resultMap="TbSpecificationMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_specification
+        where id = #{id}
+    </select>
+
+    <!-- 查询全部 -->
+    <select id="selectAll" resultMap="TbSpecificationMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_specification
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="selectList" resultMap="TbSpecificationMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_specification
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="specName != null and specName != ''">
+                and spec_name = #{specName}
+            </if>
+        </where>
+    </select>
+
+    <!-- 新增所有列 -->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into tb_specification(id, spec_name)
+        values ( #{id}, #{specName})
+    </insert>
+
+    <!-- 批量新增 -->
+    <insert id="batchInsert">
+        insert into tb_specification(id, spec_name)
+        values
+        <foreach collection="tbSpecifications" item="item" index="index" separator=",">
+            (
+            #{item.id}, #{item.specName} )
+        </foreach>
+    </insert>
+
+    <!-- 通过主键修改数据 -->
+    <update id="update">
+        update pinyougoudb.tb_specification
+        <set>
+            <if test="specName != null and specName != ''">
+                spec_name = #{specName},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from tb_specification where id = #{id}
+    </delete>
+
+    <!-- 总数 -->
+    <select id="count" resultType="int">
+        select count(*) from tb_specification
+    </select>
+</mapper>
