@@ -2,7 +2,11 @@ package com.zhl.pyg.service.impl;
 
 import com.zhl.pyg.entity.TbBrand;
 import com.zhl.pyg.dao.TbBrandDao;
+import com.zhl.pyg.lock.RedisLock;
+import com.zhl.pyg.lock.Rlock;
 import com.zhl.pyg.service.TbBrandService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Transactional;
 import org.apache.dubbo.config.annotation.DubboService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -11,6 +15,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -24,6 +30,10 @@ public class TbBrandServiceImpl implements TbBrandService {
     @Resource
     private TbBrandDao tbBrandDao;
 
+    @Autowired
+    // @Qualifier("redisLock")
+            Rlock redisLock;
+
     /**
      * 通过ID查询单条数据
      *
@@ -32,7 +42,19 @@ public class TbBrandServiceImpl implements TbBrandService {
      */
     @Override
     public TbBrand selectById(Long id) {
-        return this.tbBrandDao.selectById(id);
+
+        TbBrand tbBrand = null;
+        try {
+            redisLock.lock(id + "", UUID.randomUUID().toString(), 10, TimeUnit.SECONDS);
+            tbBrand = this.tbBrandDao.selectById(id);
+            //业务逻辑
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            redisLock.unlock(id + "");
+        }
+        return tbBrand;
     }
 
     /**
